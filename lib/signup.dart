@@ -15,24 +15,23 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // Fungsi untuk menampilkan data pengguna
+  // Fungsi untuk menampilkan dialog pendaftaran berhasil dan navigasi ke halaman login
   void tampil() {
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
-      String email = _emailController.text;
-      String pass = _passwordController.text;
 
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Data Akun"),
-            content:
-                Text("Username: $username\nEmail: $email\nPassword: $pass"),
+            title: const Text("Sign Up Success"),
+            content: Text("Welcome, $username! Your account has been created."),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // Tutup dialog
+                  Navigator.pushReplacementNamed(
+                      context, '/home'); // Pindah ke Home
                 },
                 child: const Text("OK"),
               ),
@@ -43,16 +42,25 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  // Fungsi untuk menangani pengiriman formulir
+  // Fungsi untuk memvalidasi dan menampilkan data pengguna
   void _submitForm() {
     tampil(); // Memanggil fungsi tampil untuk menampilkan data
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: null,
+        title: const Text('Sign Up for Petshop'),
         backgroundColor: const Color.fromARGB(255, 17, 119, 147),
       ),
       body: SingleChildScrollView(
@@ -66,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   const SizedBox(height: 24.0),
                   Text(
-                    'Sign Up',
+                    'Create Your Account',
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -75,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Create your account',
+                    'Join our petshop community!',
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -156,6 +164,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         ElevatedButton(
                           onPressed:
                               _submitForm, // Memanggil _submitForm untuk memproses data
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 17, 119, 147),
+                          ),
                           child: const Text('Sign Up'),
                         ),
                         const SizedBox(height: 24.0),

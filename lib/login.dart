@@ -13,22 +13,23 @@ class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // Fungsi untuk menampilkan dialog berisi input pengguna
+  // Fungsi untuk menampilkan dialog login sukses dan navigasi ke halaman home
   void tampil() {
     if (_formKey.currentState!.validate()) {
       String email = _emailController.text;
-      String pass = _passwordController.text;
 
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Data Akun"),
-            content: Text("Email: $email\nPassword: $pass"),
+            title: const Text("Login Success"),
+            content: Text("Welcome back, $email!"),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // Tutup dialog
+                  Navigator.pushReplacementNamed(
+                      context, '/home'); // Pindah ke Home
                 },
                 child: const Text("OK"),
               ),
@@ -43,9 +44,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Login to Petshop'),
         automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromARGB(255, 20, 109, 153),
+        backgroundColor: const Color.fromARGB(255, 17, 119, 147),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const SizedBox(height: 24.0),
                   Text(
-                    'Welcome Back!',
+                    'Welcome to Petshop!',
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Enter your details to login',
+                    'Please login to continue',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: const Color.fromARGB(255, 153, 199, 214)),
                     textAlign: TextAlign.center,
@@ -113,6 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 24.0),
                         ElevatedButton(
                           onPressed: tampil, // Memanggil fungsi tampil()
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 17, 119, 147),
+                          ),
                           child: const Text('Login'),
                         ),
                         const SizedBox(height: 24.0),
